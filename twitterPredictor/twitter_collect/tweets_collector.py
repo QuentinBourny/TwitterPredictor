@@ -75,3 +75,9 @@ def get_candidate_queries(num_candidate, file_path,file_type):
     except IOError:
         print("file {} is missing.".format(keywords_file_path))
         return []
+
+def collect_user_by_streaming(user_id):
+    connexion=twitter_connection_setup.twitter_setup()
+    listener=StdOutListener()
+    stream=tweepy.Stream(auth=connexion.auth,listener=listener)
+    stream.filter(follow=[user_id])
