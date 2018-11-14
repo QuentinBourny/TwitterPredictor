@@ -36,9 +36,11 @@ def collect_by_streaming():
     stream=tweepy.Stream(auth = connexion.auth, listener=listener)
     stream.filter(track=['Emmanuel Macron'])
 
-import csv
+from twitter_collect import twitter_connection_setup
+from tweepy.streaming import StreamListener
+import tweepy
 
-def get_candidate_queries(num_candidate, file_path):
+def get_candidate_queries(num_candidate, file_path,file_type):
     """
     Generate and return a list of string queries for the search Twitter API from the file file_path_num_candidate.txt
     :param num_candidate: the number of the candidate
@@ -47,21 +49,29 @@ def get_candidate_queries(num_candidate, file_path):
     :param type: type of the keyword, either "keywords" or "hashtags"
     :return: (list) a list of string queries that can be done to the search API independently
     """
+    queries=[]
+
+    keywords_file_path="{}_{}_candidate_{}.txt".format(file_path,file_type,num_candidate)
     try:
-        Queries=[]
-        Keywords=[]
-        Hashtags=[]
-        with open(keywords_candidate_num_candidate.txt) as csvfile:
-            file_reader=csv.reader(csvfile,delimiter=',')
-            for row in file_reader:
-                Keywords.append(row)
-        for keyword in Keywords:
-            Queries.append(search(keyword))
-        with open(hashtag_candidate_num_candidate.txt) as csvfile:
-            file_reader=csv.reader(csvfile,delimiter=',')
-            for row in file_reader:
-                Hashtags.append(row)
-        for hashtag in Hashtags:
-            Queries.append(search(hashtag))
+        with open(keywords_file_path,'r') as keyword_file:
+            keywords=keyword_file.read().split("\n")
+
+        i=0
+        for keyword1 in keywords:
+            if file_type == "hashtag":
+                queries.append("#{}".format(keyword1))
+            else:
+                queries.append("{}".format(keyword1))
+            if i <len(keywords)-2:
+                for keyword2 in keywords[i+1:]:
+                    if file_type == "hashtag":
+                        queries.append("#{} AND #{}".format(keyword2, keyword2))
+                    else:
+                        queries.append("{} AND {}".format(keyword2, keyword2))
+            i = i + 1
+
+        return queries
+
     except IOError:
-        print("You have exceeded the number of requests")
+        print("file {} is missing.".format(keywords_file_path))
+        return []
