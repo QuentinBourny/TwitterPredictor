@@ -36,6 +36,8 @@ def collect_by_streaming():
     stream=tweepy.Stream(auth = connexion.auth, listener=listener)
     stream.filter(track=['Emmanuel Macron'])
 
+import csv
+
 def get_candidate_queries(num_candidate, file_path):
     """
     Generate and return a list of string queries for the search Twitter API from the file file_path_num_candidate.txt
@@ -47,6 +49,19 @@ def get_candidate_queries(num_candidate, file_path):
     """
     try:
         Queries=[]
-        
+        Keywords=[]
+        Hashtags=[]
+        with open(keywords_candidate_num_candidate.txt) as csvfile:
+            file_reader=csv.reader(csvfile,delimiter=',')
+            for row in file_reader:
+                Keywords.append(row)
+        for keyword in Keywords:
+            Queries.append(search(keyword))
+        with open(hashtag_candidate_num_candidate.txt) as csvfile:
+            file_reader=csv.reader(csvfile,delimiter=',')
+            for row in file_reader:
+                Hashtags.append(row)
+        for hashtag in Hashtags:
+            Queries.append(search(hashtag))
     except IOError:
         print("You have exceeded the number of requests")
