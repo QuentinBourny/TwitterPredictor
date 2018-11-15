@@ -8,6 +8,6 @@ def Collect(num_candidate):
 def store_tweets(tweets,filename):
     tmp_list=[]
     for tweet in tweets:
-        tweet_as_dict={"text":tweet.text,"user":tweet.user.id ,"date":tweet.created_at,"hashtags":[hashtag[0]["text"] for hashtag in tweet.entities.hashtags],"retweeted":tweet.retweeted,"retweet_count":tweet.retweet_count}
+        tweet_as_dict={"text":tweet.text,"user":tweet.user.id ,"date":str(tweet.created_at),"hashtags":[hashtag[0]["text"] for hashtag in tweet.entities.hashtags],"retweeted":tweet.retweeted,"retweet_count":tweet.retweet_count}
         tmp_list.append(tweet_as_dict)
     json.dump(tmp_list,filename)
