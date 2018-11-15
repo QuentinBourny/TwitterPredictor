@@ -1,17 +1,14 @@
-import tweepy
-
 def get_tweets_from_candidates_search_queries(queries, twitter_api):
-    all_tweet=[]#liste de tous les tweets initialisée
+    all_tweet=[]
     try:
         for query in queries:
             tweets = twitter_api.search(query, lang="french", rpp="20")
             for tweet in tweets:
                 all_tweets.append(tweet)
     except TweepError as e:
-    #on va modifier le message d'erreur selon le code de celle-ci
-        if e.response.text in ["429","420"]: #il s'agit d'un problème dû à la limitation du nombre de requêtes par Twitter
+        if e.response.text in ["429","420"]:
             print("we exceeded the twitter rate limit, returning now")
-            return all_tweets #on peut renvoyer la liste car l'erreur le permet et la liste est a priori assez remplie
+            return all_tweets
         elif e.response.text =="500":
             print("Twitter down, Twitter down!")
             return None
