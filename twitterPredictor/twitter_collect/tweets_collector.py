@@ -1,11 +1,15 @@
+import tweepy
+import twitter_collect
+from tweepy.streaming import StreamListener
+
 def collect():
-    connexion = twitter_connection_setup.twitter_setup()
+    connexion = twitter_collect.twitter_connection_setup.twitter_setup()
     tweets = connexion.search("Emmanuel Macron",language="french",rpp=100)
     for tweet in tweets:
         print(tweet.text)
 
 def collect_by_user(user_id):
-    connexion = twitter_connection_setup.twitter_setup()
+    connexion = twitter_collect.twitter_connection_setup.twitter_setup()
     statuses = connexion.user_timeline(id = user_id, count = 200)
     for status in statuses:
         print(status.text)
@@ -31,14 +35,11 @@ class StdOutListener(StreamListener):
 
 def collect_by_streaming():
 
-    connexion = twitter_connection_setup.twitter_setup()
+    connexion = twitter_collect.twitter_connection_setup.twitter_setup()
     listener = StdOutListener()
     stream=tweepy.Stream(auth = connexion.auth, listener=listener)
     stream.filter(track=['Emmanuel Macron'])
 
-from twitter_collect import twitter_connection_setup
-from tweepy.streaming import StreamListener
-import tweepy
 
 def get_candidate_queries(num_candidate, file_path,file_type):
     """
@@ -77,7 +78,7 @@ def get_candidate_queries(num_candidate, file_path,file_type):
         return []
 
 def collect_user_by_streaming(user_id):
-    connexion=twitter_connection_setup.twitter_setup()
+    connexion=twitter_collect.twitter_connection_setup.twitter_setup()
     listener=StdOutListener()
     stream=tweepy.Stream(auth=connexion.auth,listener=listener)
     stream.filter(follow=[user_id])
