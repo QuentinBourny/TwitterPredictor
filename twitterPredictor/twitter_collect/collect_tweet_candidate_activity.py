@@ -1,6 +1,9 @@
+import tweepy
+import twitter_connection_setup
+
 def get_replies_to_candidate(num_candidate):
    #On veut obtenir toutes les réponses associées à un candidat
-   connexion=twitter_setup()
+   connexion=twitter_connection_setup.twitter_setup()
    replies=[] #liste initialisée qui contiendra les réponses
    #récupère les messages récents du candidat
    statuses = connexion.user_timeline(id = num_candidate, language="fr",rpp=100)
@@ -21,7 +24,7 @@ def get_replies_to_candidate(num_candidate):
                   print(tweet.text)
 
 def get_retweets_of_candidate(num_candidate):
-   connexion=twitter_setup()
+   connexion=twitter_connection_setup.twitter_setup()
    retweet=[]
    #récupère les messages récents du candidat
    statuses = connexion.user_timeline(id = num_candidate, language="fr",rpp=100)
