@@ -265,10 +265,4 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pytest
 
-def create_dataframe(Status):
-    tweet_as_dict={"text": Status['text'],"user": [Status['user']['id']] ,"date":str(Status['created_at']),"hashtags":Status['entities']["hashtags"][0]["text"],"retweeted":Status['retweeted'],"retweet_count":Status['retweet_count']}
-    Dataframe=pd.DataFrame(tweet_as_dict)
-    return Dataframe
-
-print(create_dataframe(json_example))
 
