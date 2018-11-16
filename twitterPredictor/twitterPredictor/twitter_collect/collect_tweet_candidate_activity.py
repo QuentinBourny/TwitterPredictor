@@ -18,6 +18,7 @@ def get_replies_to_candidate(num_candidate):
               if (tweet.in_reply_to_status_id_str==full_tweet.id_str):
                   replies.append(tweet.text)
                   print(tweet.text)
+   return replies
 
 def get_retweets_of_candidate(num_candidate):
    connexion=twitter_setup()
@@ -36,3 +37,4 @@ def get_retweets_of_candidate(num_candidate):
                if (tweet.retweeted_status.id_str==full_tweet.id_str):
                    retweet.append(tweet.text)
                    print(tweet.text)
+   return retweet
