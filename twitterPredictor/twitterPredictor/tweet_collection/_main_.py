@@ -5,6 +5,8 @@ def Collect(num_candidate):
     Tweets=twitter_collect.collect_candidate_actuality_tweets.get_tweets_from_candidates_search_queries(tweeter_collect.get_candidate_queries(num_candidate )) #créer la liste des tweets qui correspondent aux hashtags et mots-clés transmis dans deux fichiers texte par l'équipe du candidat
     #si on souhaite avoir une liste de tout ce qui se rapporte au candidat il suffit de rajouter une liste qui correspond à la concaténation des 3 autres
 #modifier les noms et prendre aussi les valeurs des likes (voir exemple Fonctionnalité 5)
+    return Retweets + Replies + Tweets
+
 import json
 def store_tweets(tweets,filename):
     tmp_list=[]
