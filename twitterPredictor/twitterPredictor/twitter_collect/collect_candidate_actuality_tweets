@@ -1,25 +1,27 @@
+import tweepy
+
 def get_tweets_from_candidates_search_queries(queries, twitter_api):
     all_tweet=[]
-    try:
-        for query in queries:
+    for query in queries:
+        try:
             tweets = twitter_api.search(query, lang="french", rpp="20")
             for tweet in tweets:
                 all_tweets.append(tweet)
-    except TweepError as e:
-        if e.response.text in ["429","420"]:
-            print("we exceeded the twitter rate limit, returning now")
-            return all_tweets
-        elif e.response.text =="500":
-            print("Twitter down, Twitter down!")
-            return None
-        elif  e.response.text =="401":
-            print("wrong credentials!")
-            return None
-        elif  e.response.text =="404":
-            print("The request <{}> is invalid".format(query))
-            return None
-        else:
-            "twitter API responded with code {}, something is wrong ".format(e.response.text)
-            return None
+        except tweepy.TweepError as e:
+            if e.response.text in ["429","420"]:
+                print("we exceeded the twitter rate limit, returning now")
+                return all_tweets
+            elif e.response.text =="500":
+                print("Twitter down, Twitter down!")
+                return None
+            elif  e.response.text =="401":
+                print("wrong credentials!")
+                return None
+            elif  e.response.text =="404":
+                print("The request <{}> is invalid".format(query))
+                return None
+            else:
+                "twitter API responded with code {}, something is wrong ".format(e.response.text)
+                return None
 
     return all_tweets
