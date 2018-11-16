@@ -33,6 +33,6 @@ def get_retweets_of_candidate(num_candidate):
        for tweet in connexion.search(q=query, since_id=992433028155654144, result_type='recent',timeout=999999):
 
           if hasattr(tweet, 'retweeted_status'):
-               if (tweet.retweeted_status_id_str==full_tweet.id_str):
+               if (tweet.retweeted_status.id_str==full_tweet.id_str):
                    retweet.append(tweet.text)
                    print(tweet.text)
